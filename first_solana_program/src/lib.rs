@@ -2,12 +2,14 @@ use solana_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
 };
 
+// Declare and export the program's entrypoint
 entrypoint!(process_instruction);
 
+// Program entrypoint's implementation
 fn process_instruction(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    instruction_data: &[u8],
+    program_id: &Pubkey, // The public key of the currently executing program
+    accounts: &[AccountInfo], // An ordered slice of the accounts referenced by the instruction and represented as an AccountInfo structures... The account to work with
+    instruction_data: &[u8], // The general purpose byte array from the instruction's instruction data being processed
 ) -> ProgramResult {
     msg!(
         "process_instruction: {}: {} accounts, data={:?}",

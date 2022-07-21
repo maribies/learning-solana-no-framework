@@ -1,6 +1,7 @@
 use solana_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
 };
+use borsh::{BorshDeserialize, BorshSerialize};
 
 // Declare and export the program's entrypoint
 entrypoint!(process_instruction);
@@ -18,4 +19,11 @@ fn process_instruction(
         instruction_data
     );
     Ok(())
+}
+
+// Define the type of state stored in accounts
+// When init from Anchor, #[account] is already available
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+pub struct Accomplishments {
+    pub cadet_mastery: Vec<String>,
 }

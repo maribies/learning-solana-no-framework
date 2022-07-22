@@ -33,6 +33,15 @@ fn process_instruction(
         return Err(ProgramError::IncorrectProgramId);
     }
 
+    let mut accomplishments_account = Accomplishments::try_from_slice(&account.data.borrow())?;
+    // FIXME: initializing? will need to add logic to update here later?
+    // probably need to check if cadet_mastery is already in existance?
+    // initalization only. don't want to set this if account already has accomplishments!
+    accomplishments_account.cadet_mastery = vec!["".to_string()];
+    accomplishments_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
+
+    msg!("Accomplishments {:?}!", accomplishments_account.cadet_mastery);
+
     Ok(())
 }
 

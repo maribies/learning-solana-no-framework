@@ -1,5 +1,5 @@
 use solana_program::{
-    account_info::{next_account_info, AccountInfo}, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
+    account_info::{next_account_info, AccountInfo}, entrypoint, entrypoint::ProgramResult, msg, program_error::ProgramError, pubkey::Pubkey,
 };
 use borsh::{BorshDeserialize, BorshSerialize};
 
@@ -24,7 +24,14 @@ fn process_instruction(
     let accounts_iter = &mut accounts.iter();
 
     // Get the account to add accomplishment to
+    // the `?` is a rust operator that "hides some of the boilerplate of propagating errors up the call stack"
     let account = next_account_info(accounts_iter)?;
+
+    // The account must be owned by the program in order to modify its data
+    if account.owner != program_id {
+        msg!("the account does not have the correct program id");
+        return Err(ProgramError::IncorrectProgramId);
+    }
 
     Ok(())
 }

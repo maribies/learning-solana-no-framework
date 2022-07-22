@@ -1,5 +1,5 @@
 use solana_program::{
-    account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
+    account_info::{next_account_info, AccountInfo}, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
 };
 use borsh::{BorshDeserialize, BorshSerialize};
 
@@ -19,6 +19,13 @@ fn process_instruction(
         accounts.len(),
         instruction_data
     );
+
+    // Iterating accounts is safer than indexing
+    let accounts_iter = &mut accounts.iter();
+
+    // Get the account to add accomplishment to
+    let account = next_account_info(accounts_iter)?;
+
     Ok(())
 }
 

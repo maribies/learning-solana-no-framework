@@ -8,6 +8,7 @@
     "express": "^4.18.1"
   },
   "scripts": {
-    "start": "node src/client/main.js"
+    "start": "node src/client/main.js",
+    "build": "cargo build-bpf --manifest-path=./Cargo.toml --bpf-out-dir=dist/program"
   }
 }
